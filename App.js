@@ -1,106 +1,143 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow strict-local
- */
-
-import React from 'react';
+import React, { Component } from 'react';
 import {
-  SafeAreaView,
-  StyleSheet,
-  ScrollView,
-  View,
-  Text,
-  StatusBar,
+  View, Text, Image, SafeAreaView, Dimensions,
+  TouchableOpacity,
+  ScrollView
 } from 'react-native';
 
-import {
-  Header,
-  LearnMoreLinks,
-  Colors,
-  DebugInstructions,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
 
-const App: () => React$Node = () => {
-  return (
-    <>
-      <StatusBar barStyle="dark-content" />
-      <SafeAreaView>
-        <ScrollView
-          contentInsetAdjustmentBehavior="automatic"
-          style={styles.scrollView}>
-          {global.HermesInternal == null ? null : (
-            <View style={styles.engine}>
-              <Text style={styles.footer}></Text>
-            </View>
-          )}
-          <View style={styles.body}>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>Merhaba Dünya</Text>
-              <Text style={styles.sectionDescription}>
-                <Text style={styles.highlight}></Text>
-              </Text>
-            </View>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>Hello World</Text>
+import { Input, Button, CheckBox } from './src/Components'
 
-            </View>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}></Text>
-            </View>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}></Text>
-              <Text style={styles.sectionDescription}>
-              </Text>
+const { width } = Dimensions.get('window')
+
+
+export default class App extends Component {
+
+  state = {
+    username: '',
+    password: '',
+    isShowPassword: true
+  }
+
+  componentDidMount() {
+  }
+
+  componentWillUnmount() {
+  }
+
+
+  componentDidUpdate(prevProps, prevState) {
+    console.log('componentDidUpdate');
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    return true
+  }
+
+
+  render() {
+
+    const {
+      username,
+      password,
+      isShowPassword
+
+    } = this.state
+    return (
+      <SafeAreaView style={{ flex: 1, backgroundColor: 'black' }}>
+
+        <ScrollView contentContainerStyle={{ flex: 1, padding: '7%', }}>
+
+          {/* Logo Image */}
+          <View style={{ flex: 0.7, alignItems: 'flex-start', justifyContent: 'space-between', }}>
+
+            <Image
+              source={require('./src/image/logo.png')}
+              style={styles.logo}
+            />
+            <Text style={[{ color: 'white', marginTop: 5, fontSize: 30, fontWeight: 'bold' }]}>Sign In</Text>
+
+          </View>
+
+
+
+          {/* Form */}
+          <View style={{ flex: 1.5, justifyContent: 'space-evenly', backgroundColor: 'black' }}>
+
+            <Input
+              placeholder={'Email or phone number'}
+              value={this.state.username}
+              onChangeText={(username) => this.setState({ username })}
+
+            />
+
+            <Input
+              placeholder={'Password'}
+              style={{ marginTop: -15 }}
+              secureTextEntry={isShowPassword}
+              value={password}
+              onChangeText={(password) => this.setState({ password })}
+            />
+
+
+            <Button
+              text={'Sign In'}
+
+              onPress={() => {
+                console.log('State Değerleri ', username, ' ', password);
+
+              }}
+            />
+
+            <View style={{
+              flexDirection: 'row',
+              width: '100%',
+
+              marginTop: -15,
+              justifyContent: 'space-between'
+            }}>
+
+              <CheckBox
+                text='Remember me'
+                status={isShowPassword}
+                onPress={() => this.setState({ isShowPassword: !isShowPassword })}
+              />
+
+              <TouchableOpacity>
+                <Text style={{ fontSize: 13, marginLeft: 15, color: 'gray' }}>Need help?</Text>
+              </TouchableOpacity>
+
             </View>
           </View>
+
+
+
+
+          {/* Bottom */}
+          <View style={{ marginTop: 50, flex: 0.5, alignItems: 'flex-start', justifyContent: 'flex-end' }}>
+
+            <View style={{ flex: 0.5, flexDirection: 'row' }}>
+              <Image
+                source={require('./src/image/facebook.png')}
+                style={styles.facebook}
+              />
+              <Text style={{ fontSize: 13, marginLeft: 10, color: 'gray' }}>Login with Facebook</Text>
+            </View>
+
+            <Text style={{ color: 'gray' }}>
+              New to Netflix?
+              <Text style={{ color: 'white', fontWeight: 'bold' }}>  Sign up now</Text>
+            </Text>
+          </View>
         </ScrollView>
-      </SafeAreaView>
-    </>
-  );
-};
 
-const styles = StyleSheet.create({
-  scrollView: {
-    backgroundColor: Colors.lighter,
-  },
-  engine: {
-    position: 'absolute',
-    right: 0,
-  },
-  body: {
-    backgroundColor: Colors.white,
-  },
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-    color: Colors.black,
-    textAlign: 'center',
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-    color: Colors.dark,
-  },
-  highlight: {
-    fontWeight: '700',
-  },
-  footer: {
-    color: Colors.dark,
-    fontSize: 12,
-    fontWeight: '600',
-    padding: 4,
-    paddingRight: 12,
-    textAlign: 'right',
-  },
-});
+      </SafeAreaView >
+    )
+  }
 
-export default App;
+}
+
+const styles = {
+  logo: { width: '30%', height: width * 0.08, resizeMode: 'stretch', marginTop: '5%' },
+  facebook: { width: 16, height: 16 },
+}
