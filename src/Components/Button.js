@@ -5,16 +5,16 @@ const Button = (props) => (
   <TouchableOpacity
     activeOpacity={0.8}
     onPress={props.onPress}
-    style={{
-      backgroundColor: 'red',
-      height: '17%',
-      marginTop: '4%',
+    style={[{
+      backgroundColor: '#74b9ff',
+      //height: '17%',
+      //marginTop: '4%',
       alignItems: 'center',
       justifyContent: 'center',
-      borderRadius: 3
-    }}>
+      borderRadius: 5
+    }, props.style]}>
     <Text style={{
-      color: 'white',
+      color: 'black',
       fontWeight: 'bold',
       fontSize: 18
     }}>{props.text}</Text>

@@ -1,9 +1,12 @@
+
 import * as React from 'react';
 import { Text } from 'react-native';
-import { NavigationContainer } from 'react-navigation/native';
-import { createStackNavigator } from 'react-navigation/stack';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
 import ListPage from './Scenes/ListPage';
 import FormPage from './Scenes/FormPage';
+import UpdatePage from './Scenes/UpdatePage';
+
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
 const Stack = createStackNavigator();
@@ -29,6 +32,11 @@ function Router() {
                     name="FormPage"
                     component={FormPage}
                     options={{ title: 'Add Todo List' }}
+                />
+                <Stack.Screen
+                    name="UpdatePage"
+                    component={UpdatePage}
+                    options={{ title: 'Update Item' }}
                 />
             </Stack.Navigator>
         </NavigationContainer>

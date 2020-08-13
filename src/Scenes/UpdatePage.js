@@ -7,13 +7,15 @@ const { width, height } = Dimensions.get('window')
 import { updateList } from '../Actions'
 
 
-const FormPage = (props) => {
+const UpdatePage = (props) => {
 
-    const [title, setTitle] = useState()
-    const [desc, setDesc] = useState()
+    const { selected } = props.route.params;
+
+    const [title, setTitle] = useState(selected.title)
+    const [desc, setDesc] = useState(selected.desc)
 
     // DateTimePicker
-    const [date, setDate] = useState(new Date()); //1598051730000
+    const [date, setDate] = useState(new Date(selected.date)); //1598051730000
     const [mode, setMode] = useState('date');
     const [show, setShow] = useState(false);
 
@@ -21,6 +23,7 @@ const FormPage = (props) => {
         const currentDate = selectedDate || date;
         setShow(Platform.OS === 'ios');
         setDate(currentDate);
+        console.log(currentDate)
     };
 
     const showMode = (currentMode) => {
@@ -95,7 +98,7 @@ const FormPage = (props) => {
                         props.navigation.pop();
                     }}
                 />
-                {props.loading && <ActivityIndicator size='large' style={{ marginTop: 30 }} />}
+                {/*props.loading && <ActivityIndicator size='large' style={{ marginTop: 30 }} />*/}
             </View>
         </ScrollView>
     );
@@ -117,4 +120,4 @@ const mapStateToProps = ({ listResponse }) => {
     return { list, loading };
 };
 
-export default connect(mapStateToProps, { updateList })(FormPage);
+export default connect(mapStateToProps, { updateList })(UpdatePage);
