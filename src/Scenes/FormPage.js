@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Text, View, ScrollView, StyleSheet, Dimensions, ActivityIndicator, Platform } from 'react-native';
+import { Alert, Text, View, ScrollView, StyleSheet, Dimensions, ActivityIndicator, Platform } from 'react-native';
 import { connect } from 'react-redux';
 import { Input, Button } from '../Components'
 import DateTimePicker from '@react-native-community/datetimepicker';
@@ -36,6 +36,16 @@ const FormPage = (props) => {
         showMode('time');
     };
     //-----
+    const Invalid = () => {
+        Alert.alert(
+            "Alert",
+            "Title and Description cannot be empty!",
+            [
+                { text: "OK", onPress: () => { } }
+            ],
+            { cancelable: false }
+        );
+    };
     return (
         <ScrollView>
             <View style={styles.container}>
@@ -83,16 +93,23 @@ const FormPage = (props) => {
                     onPress={() => {
                         const dt = date.toDateString();
                         const time = date.toLocaleTimeString();
+                        const id = props.list.length.toString();
 
-                        let obj = {
-                            title,
-                            desc,
-                            date,
-                            dt,
-                            time
-                        };
-                        props.updateList(obj);
-                        props.navigation.pop();
+                        if (title == undefined || desc == undefined || title.toString().trim() == "" || desc.toString().trim() == "") {
+                            Invalid();
+                        }
+                        else {
+                            let obj = {
+                                id,
+                                title,
+                                desc,
+                                date,
+                                dt,
+                                time
+                            };
+                            props.updateList(obj);
+                            props.navigation.pop();
+                        }
                     }}
                 />
                 {props.loading && <ActivityIndicator size='large' style={{ marginTop: 30 }} />}
@@ -116,5 +133,6 @@ const mapStateToProps = ({ listResponse }) => {
     const { list, loading } = listResponse;
     return { list, loading };
 };
+
 
 export default connect(mapStateToProps, { updateList })(FormPage);

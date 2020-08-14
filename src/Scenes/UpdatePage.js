@@ -1,15 +1,17 @@
 import React, { useState } from 'react';
-import { Text, View, ScrollView, StyleSheet, Dimensions, ActivityIndicator, Platform } from 'react-native';
+import { Alert, Text, View, ScrollView, StyleSheet, Dimensions, ActivityIndicator, Platform } from 'react-native';
 import { connect } from 'react-redux';
 import { Input, Button } from '../Components'
 import DateTimePicker from '@react-native-community/datetimepicker';
 const { width, height } = Dimensions.get('window')
-import { updateList } from '../Actions'
+import { updateList, updateItem } from '../Actions'
 
 
 const UpdatePage = (props) => {
 
     const { selected } = props.route.params;
+    const { index } = props.route.params;
+
 
     const [title, setTitle] = useState(selected.title)
     const [desc, setDesc] = useState(selected.desc)
@@ -39,6 +41,16 @@ const UpdatePage = (props) => {
         showMode('time');
     };
     //-----
+    const Invalid = () => {
+        Alert.alert(
+            "Alert",
+            "Title and Description cannot be empty!",
+            [
+                { text: "OK", onPress: () => { } }
+            ],
+            { cancelable: false }
+        );
+    };
     return (
         <ScrollView>
             <View style={styles.container}>
@@ -81,24 +93,32 @@ const UpdatePage = (props) => {
                 />
 
                 <Button
-                    text={'Add'}
+                    text={'Update'}
                     style={{ margin: 15, height: height * 0.07 }}
                     onPress={() => {
                         const dt = date.toDateString();
                         const time = date.toLocaleTimeString();
+                        const id = selected.id;
 
-                        let obj = {
-                            title,
-                            desc,
-                            date,
-                            dt,
-                            time
-                        };
-                        props.updateList(obj);
-                        props.navigation.pop();
+                        if (title == undefined || desc == undefined || title.toString().trim() == "" || desc.toString().trim() == "") {
+                            Invalid();
+                        }
+                        else {
+                            let obj = {
+                                id,
+                                title,
+                                desc,
+                                date,
+                                dt,
+                                time
+                            };
+                            props.list[index] = obj;
+                            props.updateItem();
+                            props.navigation.pop();
+                        }
                     }}
                 />
-                {/*props.loading && <ActivityIndicator size='large' style={{ marginTop: 30 }} />*/}
+                {props.loading && <ActivityIndicator size='large' style={{ marginTop: 30 }} />}
             </View>
         </ScrollView>
     );
@@ -120,4 +140,4 @@ const mapStateToProps = ({ listResponse }) => {
     return { list, loading };
 };
 
-export default connect(mapStateToProps, { updateList })(UpdatePage);
+export default connect(mapStateToProps, { updateList, updateItem })(UpdatePage);

@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { Alert, Image, Text, View, StyleSheet, FlatList, SafeAreaView, KeyboardAvoidingView, Platform } from 'react-native';
 import { connect } from 'react-redux';
-import { getList } from '../Actions';
+import { getList, deleteList, deleteItem } from '../Actions';
 import { Button } from '../Components'
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
@@ -12,18 +12,26 @@ const ListPage = (props) => {
         props.getList();
     }, [])
 
+    let alertOff = true;
 
-    const deleteClick = (title) => {
+    function deleteAll() {
+        props.deleteList(props.data);
+    }
+    function deleteOne(item) {
+        props.deleteItem(item);
+    }
+
+    const deleteClick = (item) => {
         Alert.alert(
-            title,
+            item.title,
             "Are you sure to delete?",
             [
                 {
                     text: "Cancel",
-                    onPress: () => console.log("Cancel Pressed"),
+                    onPress: () => { alertOff = true; },
                     style: "cancel"
                 },
-                { text: "OK", onPress: () => console.log("OK Pressed") }
+                { text: "OK", onPress: () => { deleteOne(item); alertOff = true; } }
             ],
             { cancelable: false }
         );
@@ -32,10 +40,10 @@ const ListPage = (props) => {
 
     const renderItem = ({ item }) => (
         <View style={styles.itemContainer}>
-            <TouchableOpacity style={{ zIndex: 1, }} onPress={() => { props.navigation.navigate('UpdatePage', { selected: item }) }}>
+            <TouchableOpacity onPress={() => { if (alertOff) props.navigation.navigate('UpdatePage', { selected: item, index: props.list.indexOf(item) }); }}>
                 <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                     <Text>{item.title}</Text>
-                    <TouchableOpacity style={{ zIndex: 0 }} onPress={() => deleteClick(item.title)}>
+                    <TouchableOpacity onPress={() => { alertOff = false; deleteClick(item) }}>
                         <Image style={{ alignItems: 'right' }} source={require('../Image/delete.png')} style={styles.delete} />
                     </TouchableOpacity>
                 </View>
@@ -45,7 +53,7 @@ const ListPage = (props) => {
                     <Text>{item.dt}, {item.time}</Text>
                 </View>
             </TouchableOpacity>
-        </View>
+        </View >
     );
 
     return (
@@ -57,7 +65,7 @@ const ListPage = (props) => {
                     style={{ flex: 1 }}
                     data={props.list}
                     renderItem={renderItem}
-                    keyExtractor={item => item.title}
+                    keyExtractor={item => item.id}
                     ListEmptyComponent={() => {
                         return (
                             <View style={styles.emptyList}>
@@ -102,4 +110,4 @@ const mapStateToProps = (state) => {
     return { list, list, loading, data };
 };
 
-export default connect(mapStateToProps, { getList })(ListPage);
+export default connect(mapStateToProps, { getList, deleteList, deleteItem })(ListPage);
