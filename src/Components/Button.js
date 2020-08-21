@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, TouchableOpacity } from 'react-native';
+import { Text, TouchableOpacity, ActivityIndicator } from 'react-native';
 
 const Button = (props) => (
   <TouchableOpacity
@@ -13,11 +13,13 @@ const Button = (props) => (
       justifyContent: 'center',
       borderRadius: 5
     }, props.style]}>
-    <Text style={{
-      color: 'black',
-      fontWeight: 'bold',
-      fontSize: 18
-    }}>{props.text}</Text>
+    {props.loading ?
+      <ActivityIndicator size='small' color='white' /> :
+      <Text style={{
+        color: 'black',
+        fontWeight: 'bold',
+        fontSize: 18
+      }}>{props.text}</Text>}
   </TouchableOpacity>
 );
 

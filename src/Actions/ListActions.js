@@ -1,31 +1,20 @@
-import { UPDATE_LIST, SET_LIST, ADD_LIST_LOCAL, DELETE_LIST, DELETE_ITEM, UPDATE_ITEM } from './types'
-import AsyncStorage from '@react-native-community/async-storage';
+import { BASE_URL, LIST_START, LIST_SUCCESS, LIST_FAILED, ADD_ITEM_START, ADD_ITEM_SUCCESS, ADD_ITEM_FAILED, REMOVE_ITEM_START, REMOVE_ITEM_SUCCESS, REMOVE_ITEM_FAILED } from './types'
+import { get, post } from './API'
 
-export const updateList = (payload) => {
+export const getList = (params) => {
     return (dispatch) => {
-        dispatch({ type: UPDATE_LIST, payload })
+        get(BASE_URL + '/api/characters', params ? params : {}, dispatch, LIST_START, LIST_SUCCESS, LIST_FAILED);
     }
 }
-export const deleteList = () => {
+
+export const postData = (params) => {
     return (dispatch) => {
-        dispatch({ type: DELETE_LIST })
+        post(BASE_URL + '/api/addCharacter', params, dispatch, ADD_ITEM_START, ADD_ITEM_SUCCESS, ADD_ITEM_FAILED);
     }
 }
-export const deleteItem = (payload) => {
+
+export const removeData = (params) => {
     return (dispatch) => {
-        dispatch({ type: DELETE_ITEM, payload })
-    }
-}
-export const updateItem = (payload) => {
-    return (dispatch) => {
-        dispatch({ type: UPDATE_ITEM, payload })
-    }
-}
-export const getList = () => {
-    return async (dispatch) => {
-        let data = await AsyncStorage.getItem(ADD_LIST_LOCAL)
-        if (data) {
-            dispatch({ type: SET_LIST, payload: JSON.parse(data) });
-        }
+        post(BASE_URL + '/api/removeCharacter', params, dispatch, REMOVE_ITEM_START, REMOVE_ITEM_SUCCESS, REMOVE_ITEM_FAILED);
     }
 }

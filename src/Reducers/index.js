@@ -1,6 +1,8 @@
 import { combineReducers } from 'redux';
+import AuthReducers from './AuthReducers';
 import ListReducers from './ListReducers';
 
 export default combineReducers({
-    listResponse: ListReducers
+    authResponse: AuthReducers,
+    charactersReducers: ListReducers,
 });

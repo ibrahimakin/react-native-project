@@ -11,6 +11,7 @@ const Input = (props) => (
         secureTextEntry={props.secureTextEntry}
         keyboardType={props.keyboardType}
         value={props.value}
+        defaultValue={props.defaultValue}
         onChangeText={(value) => props.onChangeText(value)}
         style={[{
             //width: '90%',//width * 0.9,
