@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "304863500020",
+    "firebase_url": "https://twitterclone-eaae6.firebaseio.com",
+    "project_id": "twitterclone-eaae6",
+    "storage_bucket": "twitterclone-eaae6.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:304863500020:android:d2acd5a8f8cef8ec2030a1",
+        "android_client_info": {
+          "package_name": "com.reactnativeproject"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "304863500020-obveduvp1a6lcip9tino3j0s3m8bd62r.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBKtWJyHI_M90bHx3pqp0uNvRxuf4sTDSA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "304863500020-obveduvp1a6lcip9tino3j0s3m8bd62r.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
